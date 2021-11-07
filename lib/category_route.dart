@@ -1,8 +1,25 @@
 import 'package:flutter/material.dart';
-import 'category.dart';
 
-class categoryRoute extends StatelessWidget {
-  const categoryRoute({Key? key}) : super(key: key);
+import 'category.dart';
+import 'unit.dart';
+
+final _backgroundColor = Colors.green[100];
+
+/// Category Route (screen).
+///
+/// This is the 'home' screen of the Unit Converter. It shows a header and
+/// a list of [Categories].
+///
+/// While it is named CategoryRoute, a more apt name would be CategoryScreen,
+/// because it is responsible for the UI at the route's destination.
+class CategoryRoute extends StatelessWidget {
+
+  String title ='Unit Converter';
+
+  CategoryRoute(String title){
+    this.title= title;
+
+  }
 
   static const _categoryNames = <String>[
     'Length',
@@ -26,40 +43,56 @@ class categoryRoute extends StatelessWidget {
     Colors.red,
   ];
 
+  /// Makes the correct number of rows for the list view.
+  ///
+  /// For portrait, we use a [ListView].
+  Widget _buildCategoryWidgets(List<Widget> categories) {
+    return ListView.builder(
+      itemBuilder: (BuildContext context, int index) => categories[index],
+      itemCount: categories.length,
+    );
+  }
+
+  /// Returns a list of mock [Unit]s.
+  List<Unit> _retrieveUnitList(String categoryName) {
+    return List.generate(10, (int i) {
+      i += 1;
+      return Unit(
+        name: '$categoryName Unit $i',
+        conversion: i.toDouble(),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-
-    final categorieList = <category>[];
+    final categories = <category>[];
 
     for (var i = 0; i < _categoryNames.length; i++) {
-      categorieList.add(category(
-          name: _categoryNames[i],
-          color: _baseColors[i]  as ColorSwatch<dynamic>,
-          iconLocation: Icons.favorite));
-
-
+      categories.add(category(
+        name: _categoryNames[i],
+        color: _baseColors[i] as ColorSwatch<dynamic>,
+        iconLocation: Icons.cake,
+        units: _retrieveUnitList(_categoryNames[i]),
+      ));
     }
 
     final listView = Container(
-      padding: EdgeInsets.all(8.0),
-      child: ListView.builder(
-        itemCount: categorieList.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            child:categorieList[index],
-          );
-        },
-      ),
+      color: _backgroundColor,
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: _buildCategoryWidgets(categories),
     );
 
-    // TODO: Create an App Bar
     final appBar = AppBar(
-      backgroundColor: Colors.green,
       elevation: 0.0,
-      title: Text(
-        "Unit converter",
-        style: TextStyle(fontSize: 30.0),
+      title:  Text( title,
+        style: TextStyle(
+          color: Colors.black,
+          fontSize: 30.0,
+        ),
       ),
+      centerTitle: true,
+      backgroundColor: _backgroundColor,
     );
 
     return Scaffold(

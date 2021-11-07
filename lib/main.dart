@@ -20,7 +20,7 @@ class UnitConvertApp extends StatelessWidget {
     return (MaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Unit converter",
-      home: converter(),
+      home: CategoryRoute("home"),
     ));
   }
 }
