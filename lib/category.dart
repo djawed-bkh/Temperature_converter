@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:udacity_learning/Converter.dart';
 
 import 'category_route.dart';
 import 'unit.dart';
@@ -33,7 +34,7 @@ class category extends StatelessWidget {
   /// Navigates to the [ConverterRoute].
   void _navigateToConverter(BuildContext context,String title) {
     // TODO: Using the Navigator, navigate to the [ConverterRoute]
-    Navigator.of(context).push(MaterialPageRoute(builder: (context) => CategoryRoute(title)));
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) => converter()));
   }
 
   @override
